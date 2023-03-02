@@ -1,0 +1,35 @@
+version: "3.8"
+services:
+  web:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: 629830418233.dkr.ecr.us-east-2.amazonaws.com/django_docker_aws_2
+    command: gunicorn project.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./app/:/usr/src/app/
+      - static_volume:/usr/src/app/static
+    expose:
+      - 8000
+    environment:
+      - DB_NAME=drones
+      - DB_USER=postgres
+      - DB_PASSWORD=2001Megan
+      - DB_HOST=database-1.cg2siodvwsrw.us-east-2.rds.amazonaws.com
+      - DB_PORT=5432
+      - DATABASE=postgres
+      - VIRTUAL_HOST=ec2-3-14-121-186.us-east-2.compute.amazonaws.com
+      - VIRTUAL_PORT=8000
+  nginx:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: 629830418233.dkr.ecr.us-east-2.amazonaws.com/django_docker_aws_2
+    volumes:
+      - static_volume:/usr/src/app/static
+    ports:
+      - 8000:80
+    depends_on:
+      - web
+volumes:
+  static_volume:
