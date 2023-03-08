@@ -1,4 +1,4 @@
-![FlightPlan](static/images/screenshots.FlightPlanLogo.png)
+![FlightPlan](static/images/screenshots/FlightPlanLogo.png)
 
 
 
